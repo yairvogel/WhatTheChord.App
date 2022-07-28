@@ -1,4 +1,5 @@
 import ChordScreen from './src/screens/ChordScreen';
+import JamIndexScreen from './src/screens/JamIndexScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { ReactElement } from 'react'
@@ -22,6 +23,10 @@ const App: () => ReactElement = () => {
                 <Stack.Screen
                     name='Chord'
                     component={ChordScreen}
+                />
+                <Stack.Screen
+                    name='Jam'
+                    component={JamIndexScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>

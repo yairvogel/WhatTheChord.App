@@ -34,6 +34,12 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
+            <View style={{margin: 10}}>
+            <Button
+                onPress={() => navigation.navigate('Jam')}
+                title='Jam'
+            />
+            </View>
             <TextInput
                 style={{
                     backgroundColor: 'lightgray',
