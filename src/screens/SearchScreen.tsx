@@ -1,5 +1,6 @@
 import {
     Button,
+    Pressable,
     ScrollView,
     Text,
     TextInput,
@@ -7,27 +8,22 @@ import {
 } from 'react-native'
 import React, { useState } from "react";
 
+import { ApiContext } from '../api/contexts'
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { ReactElement } from 'react'
+import ScreenParameters from '../navigation/ScreenParameters';
 import Song from '../model/song'
 
-const aSong: Song = {
-    id: 'id',
-    name: 'name',
-    popularity: 77,
-    artist: {
-        id: 'artistid',
-        name: 'artist name'
-    }
-}
+type Props = NativeStackScreenProps<ScreenParameters, 'Search'>
 
-const SearchScreen: () => ReactElement = () => {
+const SearchScreen = ({ navigation }: Props): ReactElement => {
     const [songs, setSongs] = useState<Song[]>([]);
     const [query, setQuery] = useState<string>("");
 
+    const api = React.useContext(ApiContext)
+    
     const submitQuery = async () => {
-        const url: string = `http://10.0.0.6:5000/search/songs?query=${query}`
-        const res: Response = await fetch(url)
-        const data: Song[] = await res.json()
+        const data: Song[] = await api.searchSongs(query);
         setSongs(data);
     }
     
@@ -56,9 +52,12 @@ const SearchScreen: () => ReactElement = () => {
                 color='#333' />
             </View>
             {songs.map((song, idx) => (
-                <View key={idx} style={{marginVertical: 10, borderColor: 'black', borderWidth: 1, paddingVertical: 3, paddingHorizontal: 7}}>
+                <Pressable key={idx}
+                    onPress={_ => navigation.navigate('Chord', { song })}>
+                <View style={{marginVertical: 10, borderColor: 'black', borderWidth: 1, paddingVertical: 3, paddingHorizontal: 7}}>
                     <Text>{song.name} - {song.artist.name}</Text>
                 </View>
+                </Pressable>
             ))}
         </ScrollView>
     )   
