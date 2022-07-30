@@ -1,5 +1,4 @@
 import {
-    Button,
     Pressable,
     ScrollView,
     Text,
@@ -8,11 +7,12 @@ import {
 } from 'react-native'
 import React, { useState } from "react";
 
-import { ApiContext } from '../api/contexts'
+import Button from '../components/Button'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { ReactElement } from 'react'
 import ScreenParameters from '../navigation/ScreenParameters';
 import Song from '../model/song'
+import { SongApiContext } from '../api/contexts'
 
 type Props = NativeStackScreenProps<ScreenParameters, 'Search'>
 
@@ -20,7 +20,7 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
     const [songs, setSongs] = useState<Song[]>([]);
     const [query, setQuery] = useState<string>("");
 
-    const api = React.useContext(ApiContext)
+    const api = React.useContext(SongApiContext)
     
     const submitQuery = async () => {
         const data: Song[] = await api.searchSongs(query);
@@ -31,15 +31,13 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
         <ScrollView
           contentContainerStyle={{
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'stretch',
             justifyContent: 'center',
           }}>
-            <View style={{margin: 10}}>
             <Button
                 onPress={() => navigation.navigate('Jam')}
                 title='Jam'
             />
-            </View>
             <TextInput
                 style={{
                     backgroundColor: 'lightgray',
@@ -49,14 +47,10 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
                 }}
                 onChangeText={setQuery}
                 value={query} />
-            <View style={{
-                marginVertical: 20
-            }}>
             <Button
                 onPress={submitQuery} 
-                title="click me!"
+                title="search"
                 color='#333' />
-            </View>
             {songs.map((song, idx) => (
                 <Pressable key={idx}
                     onPress={_ => navigation.navigate('Chord', { song })}>

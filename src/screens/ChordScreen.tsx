@@ -5,16 +5,16 @@ import {
     View
 } from 'react-native'
 
-import { ApiContext } from '../api/contexts'
+import ChordPage from '../model/chordpage'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import ScreenParameters from '../navigation/ScreenParameters'
-import Song from '../model/song'
+import { SongApiContext } from '../api/contexts'
 
 type Props = NativeStackScreenProps<ScreenParameters, 'Chord'>
 
 const ChordScreen = ({ route }: Props): ReactElement => {
     const { song } = route.params;
-    const api = React.useContext(ApiContext);
+    const api = React.useContext(SongApiContext);
     const [chordPage, setChords] = React.useState<ChordPage>();
 
     React.useEffect(() => {
@@ -25,7 +25,7 @@ const ChordScreen = ({ route }: Props): ReactElement => {
     return (
         <View style={styles.body}>
             <Text style={styles.title}>{chordPage?.songName || song.name} - {chordPage?.artistName || song.artist.name}</Text>
-            <Text>{chordPage?.chords || ""}</Text>
+            <Text style={{marginHorizontal: 10}}>{chordPage?.chords || ""}</Text>
         </View>
     )
 }

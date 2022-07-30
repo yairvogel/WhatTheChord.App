@@ -1,7 +1,7 @@
-import Api from '../interfaces/api'
+import Api from '../interfaces/song-api'
+import ChordPage from '../model/chordpage';
 import Song from '../model/song';
-
-const baseUrl: string = 'http://10.0.0.6:5000';
+import { baseUrl } from './config'
 
 export default class SongApi implements Api {
     async getChords(songId: string): Promise<ChordPage> {

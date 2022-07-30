@@ -6,3 +6,5 @@ type ChordPage = {
     date: Date,
     chords: string
   }
+
+export default ChordPage;
