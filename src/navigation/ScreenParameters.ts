@@ -3,7 +3,7 @@ import Song from '../model/song'
 type ScreenParameters = {
     Search: undefined,
     Chord: { song: Song },
-    Jam: undefined
+    JamMenu: undefined
 }
 
 export default ScreenParameters

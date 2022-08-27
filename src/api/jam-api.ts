@@ -1,5 +1,6 @@
 import Api from '../interfaces/jam-api'
 import Jam from '../model/jam';
+import JamInfo from '../model/jaminfo';
 import { baseUrl } from './config'
 
 export default class JamApi implements Api {
@@ -15,8 +16,8 @@ export default class JamApi implements Api {
         }
     }
 
-    async createJam(): Promise<Jam> {
-        const url: string = `${baseUrl}/jam`
+    async createJam(name: string): Promise<JamInfo> {
+        const url: string = `${baseUrl}/jam?name=${name}`
         const res: Response = await fetch(url, {
             method: 'POST'
         });
@@ -28,7 +29,7 @@ export default class JamApi implements Api {
         const res: Response = await fetch(url);
         return await res.json();
     }
-    async listJams(): Promise<Jam[]> {
+    async listJams(): Promise<JamInfo[]> {
         const url = `${baseUrl}/jam`;
         const res: Response = await fetch(url);
         return await res.json()

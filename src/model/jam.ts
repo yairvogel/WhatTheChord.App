@@ -1,6 +1,10 @@
+import JamInfo from "./jaminfo";
+import Song from "./song";
 
 type Jam = {
-    id: string
+    info: JamInfo
+    currentSong?: Song
+    playlist?: Song[]
 }
 
-export default Jam
+export default Jam;

@@ -35,7 +35,7 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
             justifyContent: 'center',
           }}>
             <Button
-                onPress={() => navigation.navigate('Jam')}
+                onPress={() => navigation.navigate('JamMenu')}
                 title='Jam'
             />
             <TextInput
