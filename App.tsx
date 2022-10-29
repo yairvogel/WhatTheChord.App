@@ -1,8 +1,6 @@
 import { CurrentJamContext, JamApiContext, SetCurrentJamContext } from './src/api/contexts';
 import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 
-import Button from './src/components/Button';
-import { Header } from 'react-native/Libraries/NewAppScreen';
 import Jam from './src/model/jam';
 import JamApi from './src/interfaces/jam-api';
 import JamInfo from './src/model/jaminfo';

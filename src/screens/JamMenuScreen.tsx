@@ -82,17 +82,17 @@ const JoinJamScreen: React.FC<ModalProps> = ({close}) => {
     const jamApi = React.useContext<JamApi>(JamApiContext);
     const [jams, setJams] = React.useState<JamInfo[] | undefined>(undefined);
     const setCurrentJam = React.useContext(SetCurrentJamContext);
+    const setAndClose = jam => {
+        setCurrentJam(jam);
+        close();
+    }
     React.useEffect(() => { jamApi.listJams().then(setJams) }, [])
     if (!jams) return <View><Text>No Jams available</Text></View>
     return (
         <View>
             <Text>Jams</Text>
             <ScrollView>
-                {jams!.map(jam => 
-                <Pressable key={jam.id} onPress={() => setCurrentJam(jam)}>
-                    <Text>{jam.name}</Text>
-                </Pressable>
-                )}
+                {jams!.map(jam => <Button key={jam.id} onPress={() => setAndClose(jam)} title={jam.name} />)}
             </ScrollView>
         </View>
     )
