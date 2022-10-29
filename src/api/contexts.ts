@@ -11,8 +11,8 @@ import SongApiImplementation from './song-api';
 const songApi = new SongApiImplementation();
 export const SongApiContext = createContext<SongApi>(songApi)
 
-//const jamApi = new JamApiImplementation();
-const jamApi = new JamApiMock();
+const jamApi = new JamApiImplementation();
+//const jamApi = new JamApiMock();
 export const JamApiContext = createContext<JamApi>(jamApi);
 
 export const CurrentJamContext = createContext<JamInfo | undefined>(undefined)

@@ -1,13 +1,16 @@
 import { JamApiContext, SetCurrentJamContext } from '../api/contexts'
 import { NativeStackNavigationProp, NativeStackScreenProps, createNativeStackNavigator } from '@react-navigation/native-stack'
-import React, { ReactElement } from 'react'
 import {
+    Pressable,
+    ScrollView,
     Text,
     TextInput,
     View
 } from 'react-native'
+import React, { ReactElement } from 'react'
 
 import Button from '../components/Button'
+import JamApi from '../interfaces/jam-api'
 import JamInfo from '../model/jaminfo'
 import { Modalize } from 'react-native-modalize'
 import ScreenParameters from '../navigation/ScreenParameters'
@@ -76,9 +79,21 @@ const CreateJamScreen: React.FC<ModalProps> = ({close}): ReactElement => {
 }
 
 const JoinJamScreen: React.FC<ModalProps> = ({close}) => {
+    const jamApi = React.useContext<JamApi>(JamApiContext);
+    const [jams, setJams] = React.useState<JamInfo[] | undefined>(undefined);
+    const setCurrentJam = React.useContext(SetCurrentJamContext);
+    React.useEffect(() => { jamApi.listJams().then(setJams) }, [])
+    if (!jams) return <View><Text>No Jams available</Text></View>
     return (
         <View>
-            <Text>join jam screen</Text>
+            <Text>Jams</Text>
+            <ScrollView>
+                {jams!.map(jam => 
+                <Pressable key={jam.id} onPress={() => setCurrentJam(jam)}>
+                    <Text>{jam.name}</Text>
+                </Pressable>
+                )}
+            </ScrollView>
         </View>
     )
 }

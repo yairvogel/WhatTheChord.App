@@ -1,7 +1,8 @@
 import { CurrentJamContext, JamApiContext, SetCurrentJamContext } from './src/api/contexts';
-import { Dimensions, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 
 import Button from './src/components/Button';
+import { Header } from 'react-native/Libraries/NewAppScreen';
 import Jam from './src/model/jam';
 import JamApi from './src/interfaces/jam-api';
 import JamInfo from './src/model/jaminfo';
@@ -23,15 +24,15 @@ const App: React.FC = () => {
         <CurrentJamContext.Provider value={jamInfo!}>
             <SetCurrentJamContext.Provider value={setJamInfo!}>
                 <ScrollView contentContainerStyle={{flexGrow: 1}} snapToOffsets={offsets} decelerationRate='normal'>
-                    <View style={{flexGrow: 11}}>
+                    <View style={{flexGrow: 15}}>
                         <NavigationComponent />
                     </View>
                     {jamInfo ?
                     (
                     <>
-                    <View style={{flexGrow: 1}}>
-                        <Button title='OpenBar' onPress={onOpen}/>
-                    </View>
+                    <Pressable style={styles.jamBar} onPress={onOpen}>
+                        <Text style={styles.jamBarText}>{jamInfo.name}</Text>
+                    </Pressable>
                     <Modalize ref={JamModal}>
                         <JamContent jamInfo={jamInfo!} setJamInfo={setJamInfo} />
                     </Modalize>
@@ -51,9 +52,10 @@ const JamContent: React.FC<JamModalProps> = ({jamInfo, setJamInfo}) => {
         jamApi.getJam(jamInfo.id).then(setJam);
     })
     return (
-        <View>
-            <Text>Jam: {jamInfo.name}</Text>
-            {jam?.currentSong ? <Text>currentSong: {jamInfo.currentSong!.name}</Text> : null}
+        <View style={{padding: 20}}>
+            <Text style={{fontSize: 24}}>Jam: {jamInfo.name}</Text>
+            <Text style={{fontSize: 18}}>Songs:</Text>
+            {jam?.currentSong ? <Text>currentSong: {jamInfo.currentSong!.name}</Text> : <Text>No current songs</Text>}
             {jam?.playlist ?
             <ScrollView>
                 {jam.playlist!.map(song => <View><Text>{song.name}</Text></View>)}
@@ -62,5 +64,19 @@ const JamContent: React.FC<JamModalProps> = ({jamInfo, setJamInfo}) => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    jamBar: {
+        flexGrow: 1,
+        paddingHorizontal: 10, 
+        justifyContent: 'center',
+        backgroundColor: 'teal',
+        fontColor: '#FFF'
+    },
+    jamBarText: {
+        color: 'white',
+        fontSize: 30
+    }
+})
 
 export default App;

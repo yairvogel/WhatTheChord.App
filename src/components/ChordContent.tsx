@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import ChordPage from '../model/chordpage'
 import React from 'react'
+import { ScrollView } from 'react-native-gesture-handler'
 import Song from '../model/song'
 import { SongApiContext } from '../api/contexts'
 
@@ -15,10 +16,10 @@ const ChordContent = (song: Song) => {
     }, [])
 
     return (
-        <View style={styles.body}>
+        <ScrollView contentContainerStyle={styles.body}>
             <Text style={styles.title}>{chordPage?.songName || song.name} - {chordPage?.artistName || song.artist.name}</Text>
             <Text style={{ marginHorizontal: 10 }}>{chordPage?.chords || ""}</Text>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -30,7 +31,9 @@ const styles = StyleSheet.create({
     body: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        paddingHorizontal: 10,
+        paddingVertical: 20
     }
 })
 
