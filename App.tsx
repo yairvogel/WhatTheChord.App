@@ -4,8 +4,6 @@ import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } 
 import Jam from './src/model/jam';
 import JamApi from './src/interfaces/jam-api';
 import JamInfo from './src/model/jaminfo';
-import { Modalize } from 'react-native-modalize'
-import NavigationComponent from './src/components/NavigationComponent';
 import React from 'react';
 import { SetState } from './src/types/types';
 
@@ -14,10 +12,7 @@ const barHeight = 150;
 const offsets = [0, window.height - barHeight]
 
 const App: React.FC = () => {
-    const JamModal = React.useRef<Modalize>(null)
-    const onOpen = () => { JamModal.current!.open(); }
     const [jamInfo, setJamInfo] = React.useState<JamInfo | undefined>(undefined)
-    
     return (
         <CurrentJamContext.Provider value={jamInfo!}>
             <SetCurrentJamContext.Provider value={setJamInfo!}>
@@ -25,16 +20,6 @@ const App: React.FC = () => {
                     <View style={{flexGrow: 15}}>
                         <NavigationComponent />
                     </View>
-                    {jamInfo ?
-                    (
-                    <>
-                    <Pressable style={styles.jamBar} onPress={onOpen}>
-                        <Text style={styles.jamBarText}>{jamInfo.name}</Text>
-                    </Pressable>
-                    <Modalize ref={JamModal}>
-                        <JamContent jamInfo={jamInfo!} setJamInfo={setJamInfo} />
-                    </Modalize>
-                    </>) : null}
                 </ScrollView>
             </SetCurrentJamContext.Provider>
         </CurrentJamContext.Provider>
@@ -62,19 +47,5 @@ const JamContent: React.FC<JamModalProps> = ({jamInfo, setJamInfo}) => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    jamBar: {
-        flexGrow: 1,
-        paddingHorizontal: 10, 
-        justifyContent: 'center',
-        backgroundColor: 'teal',
-        fontColor: '#FFF'
-    },
-    jamBarText: {
-        color: 'white',
-        fontSize: 30
-    }
-})
 
 export default App;

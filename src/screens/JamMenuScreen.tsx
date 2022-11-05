@@ -45,7 +45,7 @@ const JamIndexScreen = ({route, navigation}: Props): ReactElement => {
             <Button
               onPress={_ => openModal(Command.Join)}
               title="join jam" />
-            <Modalize ref={modal}>
+            <Modalize ref={modal} modalStyle={{flexGrow: 1}}>
                 {command == Command.Create ? <CreateJamScreen close={tryCloseModal} /> : <JoinJamScreen close={tryCloseModal} />}
             </Modalize>
         </View>
@@ -89,10 +89,10 @@ const JoinJamScreen: React.FC<ModalProps> = ({close}) => {
     React.useEffect(() => { jamApi.listJams().then(setJams) }, [])
     if (!jams) return <View><Text>No Jams available</Text></View>
     return (
-        <View>
+        <View style={{flexGrow: 1}}>
             <Text>Jams</Text>
-            <ScrollView>
-                {jams!.map(jam => <Button key={jam.id} onPress={() => setAndClose(jam)} title={jam.name} />)}
+            <ScrollView style={{flexGrow: 1}} contentContainerStyle={{flexGrow: 1}}>
+                {jams!.map(jam => <Button key={jam.id} onPress={() => setAndClose(jam)} title={jam.name || ""} />)}
             </ScrollView>
         </View>
     )
