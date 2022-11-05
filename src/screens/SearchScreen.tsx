@@ -33,11 +33,12 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
             display: 'flex',
             alignItems: 'stretch',
             justifyContent: 'center',
+            padding: 20
           }}>
-            <Button
-                onPress={() => navigation.navigate('JamMenu')}
-                title='Jam'
-            />
+            <Text style={{
+                fontSize: 36,
+                fontWeight: 'bold'
+            }}>Wanna Chord?</Text>
             <TextInput
                 style={{
                     backgroundColor: 'lightgray',
@@ -46,7 +47,8 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
                     paddingHorizontal: 10
                 }}
                 onChangeText={setQuery}
-                value={query} />
+                value={query}
+                placeholder="Search for chords" />
             <Button
                 onPress={submitQuery} 
                 title="search"
@@ -54,7 +56,7 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
             {songs.map((song, idx) => (
                 <Pressable key={idx}
                     onPress={_ => navigation.navigate('Chord', { song })}>
-                <View style={{marginVertical: 10, borderColor: 'black', borderWidth: 1, paddingVertical: 3, paddingHorizontal: 7}}>
+                <View style={{marginVertical: 2, paddingVertical: 5, backgroundColor: 'lightgray', paddingHorizontal: 7}}>
                     <Text>{song.name} - {song.artist.name}</Text>
                 </View>
                 </Pressable>
