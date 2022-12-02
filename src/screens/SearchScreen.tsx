@@ -1,30 +1,32 @@
 import {
-    Pressable,
+    ActivityIndicator,
     ScrollView,
-    Text,
     TextInput,
     View
 } from 'react-native'
 import React, { useState } from "react";
 
-import Button from '../components/Button'
-import {Icon} from '@rneui/themed'
+import { Icon } from '@rneui/themed';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { ReactElement } from 'react'
 import ScreenParameters from '../navigation/ScreenParameters';
 import Song from '../model/song'
 import { SongApiContext } from '../api/contexts'
+import SongListItem from '../components/SongListItem';
 
 type Props = NativeStackScreenProps<ScreenParameters, 'Search'>
 
 const SearchScreen = ({ navigation }: Props): ReactElement => {
     const [songs, setSongs] = useState<Song[]>([]);
+    const [loadingSongs, setLoadingSongs] = useState<boolean>(false);
     const [query, setQuery] = useState<string>("");
 
     const api = React.useContext(SongApiContext)
     
-    const submitQuery = async () => {
+    const submitQuery = async (query: string) => {
+        setLoadingSongs(true);
         const data: Song[] = await api.searchSongs(query);
+        setLoadingSongs(false);
         setSongs(data);
     }
     
@@ -32,33 +34,46 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
         <ScrollView
           contentContainerStyle={{
             display: 'flex',
-            alignItems: 'stretch',
-            justifyContent: 'center',
-            padding: 20
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            padding: 20,
+            backgroundColor: '#D9D9D9',
+            flexGrow: 1,
           }}>
-            <Icon name='search' />
-            <TextInput
+            <View style={{
+                marginTop: 50
+            }}>
+                <Icon name='search' size={50} color="#505050" />
+                <TextInput
                 style={{
-                    backgroundColor: 'lightgray',
                     minWidth: 300,
                     paddingVertical: 5,
-                    paddingHorizontal: 10
+                    paddingHorizontal: 10,
+                    fontSize: 50,
+                    textAlign: 'center',
+                    fontFamily: 'Gruppo',
+                    color: '#505050',
+                    lineHeight: 1,
+                    maxHeight: 150,
+                    letterSpacing: .1,
+                    borderColor: 'black'
                 }}
+                multiline={true}
+                numberOfLines={2}
                 onChangeText={setQuery}
+                onEndEditing={() => submitQuery(query)}
                 value={query}
-                placeholder="Search for chords" />
-            <Button
-                onPress={submitQuery} 
-                title="search"
-                color='#333' />
-            {songs.map((song, idx) => (
-                <Pressable key={idx}
-                    onPress={_ => navigation.navigate('Chord', { song })}>
-                <View style={{marginVertical: 2, paddingVertical: 5, backgroundColor: 'lightgray', paddingHorizontal: 7}}>
-                    <Text>{song.name} - {song.artist.name}</Text>
-                </View>
-                </Pressable>
-            ))}
+                placeholder="Tap Here to search for chords" />
+            </View>
+
+            {loadingSongs ? <ActivityIndicator size='large' /> : <></>}
+            
+            {songs.map(
+                (song, idx) => 
+                    <SongListItem 
+                        song={song} 
+                        key={idx} 
+                        onPress={_ => navigation.navigate('Chord', { song })} />)}
         </ScrollView>
     )   
 }

@@ -9,7 +9,8 @@ const Stack = createNativeStackNavigator<ScreenParameters>();
 
 
 const NavigationComponent = (): React.ReactElement<any, React.JSXElementConstructor<any>> => {
-    return <NavigationContainer>
+    return (
+    <NavigationContainer>
         <Stack.Navigator
             screenOptions={{ headerShown: false }}>
             <Stack.Screen
@@ -19,7 +20,7 @@ const NavigationComponent = (): React.ReactElement<any, React.JSXElementConstruc
                 name='Chord'
                 component={ChordScreen} />
         </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer>)
 }
 
 export default NavigationComponent
