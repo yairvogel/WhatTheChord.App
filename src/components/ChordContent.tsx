@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 
 import ChordPage from '../model/chordpage'
 import React from 'react'
@@ -18,7 +18,7 @@ const ChordContent = (song: Song) => {
     return (
         <ScrollView contentContainerStyle={styles.body}>
             <Text style={styles.title}>{chordPage?.songName || song.name} - {chordPage?.artistName || song.artist.name}</Text>
-            <Text style={{ marginHorizontal: 10 }}>{chordPage?.chords || ""}</Text>
+            {chordPage ? <Text style={{ marginHorizontal: 10 }}>{chordPage!.chords || ""} </Text> : <View style={{flexGrow: 1, justifyContent: 'center'}}><ActivityIndicator size='large' /></View> }
         </ScrollView>
     )
 }
@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         paddingHorizontal: 10,
-        paddingVertical: 20
+        paddingVertical: 20,
+        flexGrow: 1
     }
 })
 

@@ -8,6 +8,7 @@ import {
 import React, { useState } from "react";
 
 import Button from '../components/Button'
+import {Icon} from '@rneui/themed'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { ReactElement } from 'react'
 import ScreenParameters from '../navigation/ScreenParameters';
@@ -35,10 +36,7 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
             justifyContent: 'center',
             padding: 20
           }}>
-            <Text style={{
-                fontSize: 36,
-                fontWeight: 'bold'
-            }}>Wanna Chord?</Text>
+            <Icon name='search' />
             <TextInput
                 style={{
                     backgroundColor: 'lightgray',
