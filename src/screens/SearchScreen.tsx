@@ -37,7 +37,7 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
             alignItems: 'center',
             justifyContent: 'flex-start',
             padding: 20,
-            backgroundColor: '#D9D9D9',
+            backgroundColor: '#EEF2F5',
             flexGrow: 1,
           }}>
             <View style={{
