@@ -49,21 +49,23 @@ const SearchScreen = ({ navigation }: Props): ReactElement => {
                     minWidth: 300,
                     paddingVertical: 5,
                     paddingHorizontal: 10,
-                    fontSize: 50,
+                    fontSize: 30,
                     textAlign: 'center',
                     fontFamily: 'Gruppo',
                     color: '#505050',
-                    lineHeight: 1,
-                    maxHeight: 150,
-                    letterSpacing: .1,
-                    borderColor: 'black'
+                    letterSpacing: .1
                 }}
-                multiline={true}
-                numberOfLines={2}
+                returnKeyType='search'
+                //multiline={true}
+                numberOfLines={3}
                 onChangeText={setQuery}
+                onFocus={() => setQuery('')} 
                 onEndEditing={() => submitQuery(query)}
+                clearTextOnFocus={true}
+                onSubmitEditing={() => submitQuery(query)}
                 value={query}
-                placeholder="Tap Here to search for chords" />
+                autoCapitalize='words'
+                placeholder="Search for chords" />
             </View>
 
             {loadingSongs ? <ActivityIndicator size='large' /> : <></>}

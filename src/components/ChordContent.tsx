@@ -28,7 +28,9 @@ const ChordContent: React.FC<{song: Song, onBack: Action}> = ({song, onBack}) =>
                 <View style={{width: '20%', borderBottomColor: '#CCC', borderBottomWidth: 1, marginTop: 20}}></View>
             </View>
             <ScrollView>
-                {chordPage ? <Text style={{ marginHorizontal: 10 }}>{chordPage!.chords || ""} </Text> : <View style={{flexGrow: 1, justifyContent: 'center'}}><ActivityIndicator size='large' /></View> }
+                {chordPage 
+                ? <Text style={{ marginHorizontal: 10, fontFamily: 'Inter', fontSize: 14, color: '#000' }}>{chordPage!.chords || ""} </Text> 
+                : <View style={{flexGrow: 1, justifyContent: 'center'}}><ActivityIndicator size='large' /></View> }
             </ScrollView>
         </View>
     )
@@ -36,13 +38,13 @@ const ChordContent: React.FC<{song: Song, onBack: Action}> = ({song, onBack}) =>
 
 const styles = StyleSheet.create({
     songName: {
-        fontSize: 20,
+        fontSize: 22,
         lineHeight: 40,
         color: '#111',
         fontFamily: 'Inter'
     },
     artist: {
-        fontSize: 13,
+        fontSize: 14,
         color: '#6B6B6B',
         fontFamily: 'Inter'
     },
