@@ -28,7 +28,8 @@ jobs:
         rm -rf ./android/app/src/main/res/drawable-*
         rm -rf ./android/app/src/main/res/raw
     - name: Build apk
-      run: ./android/gradlew assembleRelease
+      working-directory: ./android
+      run: ./gradlew assembleRelease
     - name: Publish apk
       uses: actions/upload-artifact@v3
       with:
