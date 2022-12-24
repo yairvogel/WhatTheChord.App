@@ -6,20 +6,24 @@ import React from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import Song from '../model/song'
 import { SongApiContext } from '../api/contexts'
+import SongListItem from './SongListItem'
 
-type Action = () => void
-const ChordContent: React.FC<{song: Song, onBack: Action}> = ({song, onBack}) => {
-    const api = React.useContext(SongApiContext)
-    const [chordPage, setChords] = React.useState<ChordPage>()
+type Action = () => void;
+const ChordContent: React.FC<ChordContentProps> = ({song, navigation}) => {
+    const api = React.useContext(SongApiContext);
+    const [chordPage, setChords] = React.useState<ChordPage>();
+    const [recommendations, setRecommendations] = React.useState<Song[]>([]);
 
     React.useEffect(() => {
         api.getChords(song.id)
             .then(setChords)
+        api.recommendedSongs(song)
+            .then(setRecommendations)
     }, [])
 
     return (
         <View style={styles.body}>
-            <Pressable style={styles.backFloating} onPress={onBack}>
+            <Pressable style={styles.backFloating} onPress={navigation.goBack}>
                 <Icon name='arrow-back-ios' size={30} color="#505050"/>
             </Pressable>
             <View style={styles.header}>
@@ -29,7 +33,15 @@ const ChordContent: React.FC<{song: Song, onBack: Action}> = ({song, onBack}) =>
             </View>
             <ScrollView>
                 {chordPage 
-                ? <Text style={{ marginHorizontal: 10, fontFamily: 'Inter', fontSize: 14, color: '#000' }}>{chordPage!.chords || ""} </Text> 
+                ? <View>
+                    <Text style={{ marginHorizontal: 10, fontFamily: 'Inter', fontSize: 14, color: '#000' }}>{chordPage!.chords || ""} </Text> 
+                    <View style={{alignItems: 'center'}}>
+                        <Text style={styles.songName}>Play Some More:</Text>
+                        {recommendations.slice(0, 5).map((value, index) => <SongListItem key={index} song={value} onPress={_ => {
+                            navigation.push('Chord', {song: value});
+                            }} />)}
+                    </View>
+                  </View>
                 : <View style={{flexGrow: 1, justifyContent: 'center'}}><ActivityIndicator size='large' /></View> }
             </ScrollView>
         </View>
@@ -77,5 +89,12 @@ const styles = StyleSheet.create({
         top: 30
     }
 })
+
+type ChordContentProps = {
+    song: Song,
+    goBack?: () => void,
+    openChord?: (song: Song) => void
+    navigation: any
+}
 
 export default ChordContent;

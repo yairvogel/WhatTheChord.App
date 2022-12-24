@@ -6,6 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -20,7 +21,6 @@
     "react": "^18.1.0",
     "react-native": "^0.70.6",
     "react-native-gesture-handler": "^2.5.0",
-    "react-native-modalize": "^2.0.13",
     "react-native-safe-area-context": "^4.3.1",
     "react-native-screens": "^3.15.0",
     "react-native-vector-icons": "^9.2.0",

@@ -21,4 +21,24 @@ export default class SongApi implements Api {
         const res: Response = await fetch(url);
         return await res.json();
     }
+
+    async recommendedSongs(song: Song): Promise<Song[]> {
+        const url: string = `${baseUrl}/recommended`
+
+        const request: Song = {
+            name: song.name,
+            id: song.id,
+            artist: {
+                name: song.artist.name,
+                id: song.artist.id
+            }
+        }
+
+        const res: Response = await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(request)
+        });
+        return await res.json();
+    }
 }
