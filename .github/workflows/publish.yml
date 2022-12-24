@@ -1,0 +1,37 @@
+name: Publish
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Node
+      uses: actions/setup-node@v2
+      with: 
+        node-version: ${{ matrix.node-version }}
+        cache: npm
+    - name: Install Dependencies
+      run: npm i
+    - name: Bundle
+      run: npm run bundle
+    - name: Cleanup
+      run: |
+        rm -rf ./android/app/src/main/res/drawable-*
+        rm -rf ./android/app/src/main/res/raw
+    - name: Build apk
+      run: ./android/gradlew assembleRelease
+    - name: Publish apk
+      uses: actions/upload-artifact@v3
+      with:
+        name: whatthechord.apk
+        path: ./android/app/build/outputs/apk/release/app-release.apk
+    
